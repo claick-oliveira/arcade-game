@@ -193,7 +193,12 @@ var Engine = (function(global) {
       }
     }
 
-    renderEntities();
+    if (game.start === true) {
+      renderEntities();
+    }
+    else {
+      menu.renderPlayerSelect();
+    }
   }
 
   /* This function is called by the render function and is called on each game
@@ -254,7 +259,13 @@ var Engine = (function(global) {
       'images/Heart.png',
       'images/Gem Blue.png',
       'images/Gem Green.png',
-      'images/Gem Orange.png'
+      'images/Gem Orange.png',
+      'images/char-boy.png',
+      'images/char-cat-girl.png',
+      'images/char-horn-girl.png',
+      'images/char-pink-girl.png',
+      'images/char-princess-girl.png',
+      'images/Selector.png'
   ]);
   Resources.onReady(init);
 

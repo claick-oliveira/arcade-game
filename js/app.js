@@ -15,6 +15,7 @@ class Game {
     this.pause = false;
     this.over = false;
     this.reset = false;
+    this.start = false;
     this.countBlue = 0
     this.countGreen = 0
     this.countOrange = 0
@@ -140,9 +141,9 @@ class Game {
     /**
     * @description Reset the game
     */
-    this.over = !this.over;
-    this.reset = !this.reset;
-    this.pause = !this.pause;
+    this.over = false;
+    this.reset = false;
+    this.pause = false;
     this.score = 0;
     this.level = 1;
     this.countBlue = 0;
@@ -153,7 +154,68 @@ class Game {
     allEnemies.clear();
     this.handleStart();
   }
+}
 
+class Menu {
+  /**
+  * @description Represents a Game
+  * @constructor
+  * @param {number} score - The score of the game
+  * @param {number} level - The level of the game
+  * @param {boolean} pause - The pause status of the game
+  * @param {boolean} over - The over status of the game
+  * @param {boolean} reset - The reset status of the game
+  * @param {string} sprite - The sprite heart of the game
+  */
+  constructor() {
+    this.boy = 'images/char-boy.png';
+    this.cat = 'images/char-cat-girl.png';
+    this.horn = 'images/char-horn-girl.png';
+    this.pink = 'images/char-pink-girl.png';
+    this.princess = 'images/char-princess-girl.png';
+    this.selector = 'images/Selector.png';
+    this.selectorX = 0;
+    this.selectorId = 0;
+  }
+
+  renderPlayerSelect() {
+    /**
+    * @description Renders the game over
+    */
+    ctx.clearRect(0, 0, 0, 0);
+    ctx.font = '23pt Arial';
+    ctx.globalAlpha = 0.65;
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 50, 505, 535);
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = 'white';
+    ctx.fillText('Select your player', 135, 100);
+    ctx.drawImage(Resources.get(this.selector), this.selectorX, 210);
+    ctx.drawImage(Resources.get(this.boy), 0, 210);
+    ctx.drawImage(Resources.get(this.cat), 100, 210,);
+    ctx.drawImage(Resources.get(this.horn), 203, 210);
+    ctx.drawImage(Resources.get(this.pink), 303, 210);
+    ctx.drawImage(Resources.get(this.princess), 403, 210);
+    ctx.fillText('Press space to start', 115, 500);
+  }
+
+  handleInput(keyCode) {
+    /**
+    * @description Changes the selector position and char Id
+    * @param {number} keyCode - A key that was pressed
+    */
+    if (keyCode === 'left' && this.selectorX > 0) {
+      this.selectorX -= 100;
+      player.charId -= 1;
+    }
+    if (keyCode === 'right' && this.selectorX < 400) {
+      this.selectorX += 100;
+      player.charId += 1;
+    }
+    if (keyCode === 'space') {
+      game.start = true;
+    }
+  }
 }
 
 class Enemy {
@@ -213,7 +275,9 @@ class Player {
     this.width = 40;
     this.life = 3;
     this.count = 0;
-    this.sprite = 'images/char-boy.png';
+    this.charId = 0;
+    this.sprite = ['images/char-boy.png', 'images/char-cat-girl.png', 'images/char-horn-girl.png', 
+                   'images/char-pink-girl.png','images/char-princess-girl.png', 'images/Selector.png']
   }
 
   update() {
@@ -256,7 +320,7 @@ class Player {
     /**
     * @description Renders the player
     */
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite[this.charId]), this.x, this.y);
   }
 
   handleInput(keyCode) {
@@ -385,6 +449,7 @@ let allObjects = new Set();
 const ENEMYS = 3;
 let player = new Player();
 let game = new Game();
+let menu = new Menu();
 game.handleStart();
 
 // This listens for key presses and sends the keys to your
@@ -392,14 +457,25 @@ game.handleStart();
 document.addEventListener('keyup', function(e) {
   let allowedKeys = {
       13: 'enter',
+      27: 'esc',
       32: 'space',
       37: 'left',
       38: 'up',
       39: 'right',
       40: 'down'
   };
-  if (game.over !== true) {
-    if (game.pause !== true && e.keyCode !== 32) player.handleInput(allowedKeys[e.keyCode]);
-    else if (e.keyCode === 32) game.handlePause();
-  } else if (e.keyCode === 13) game.handleReset();
+  if (game.start === true) {
+    if (game.over !== true) {
+      if (game.pause !== true && e.keyCode !== 32) player.handleInput(allowedKeys[e.keyCode]);
+      if (e.keyCode === 27) {
+        game.handleReset();
+        game.start = false;
+      }
+      if (e.keyCode === 32) game.handlePause();
+    } 
+    else if (e.keyCode === 13) game.handleReset();
+  } 
+  else {
+    menu.handleInput(allowedKeys[e.keyCode])
+  }
 });
