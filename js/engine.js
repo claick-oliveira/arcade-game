@@ -145,6 +145,9 @@ var Engine = (function(global) {
   }
 
   setInterval(() => {
+    /**
+    * @description Generate a ramdom prize each 10s
+    */
     game.randomPrize();
   }, 10000)
 

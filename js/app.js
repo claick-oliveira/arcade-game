@@ -46,7 +46,7 @@ class Game {
     */
     const choices = [40, 130, 220];
     const choice = choices[Math.floor(Math.random() * choices.length)];
-    const speed = Math.floor(Math.random()*300*game.level) + 10;
+    const speed = Math.floor(Math.random()*150*game.level) + 50;
     allEnemies.add(new Enemy(choice, speed));    
   }
 
@@ -303,6 +303,11 @@ class Rewards {
 };
 
 class Heart extends Rewards {
+  /**
+  * @description Represents a Heart
+  * @constructor
+  * @param {string} id - The id of the heart
+  */
   constructor() {
     super('images/Heart.png')
     this.id = 'heart';
@@ -316,6 +321,11 @@ class Heart extends Rewards {
 }
 
 class GemBlue extends Rewards {
+  /**
+  * @description Represents a GemBlue
+  * @constructor
+  * @param {string} id - The id of the gemblue
+  */
   constructor() {
     super('images/Gem Blue.png')
     this.id = 'blue';
@@ -330,6 +340,11 @@ class GemBlue extends Rewards {
 }
 
 class GemGreen extends Rewards {
+  /**
+  * @description Represents a GemGreen
+  * @constructor
+  * @param {string} id - The id of the gemgreen
+  */
   constructor() {
     super('images/Gem Green.png')
     this.id = 'green';
@@ -344,6 +359,11 @@ class GemGreen extends Rewards {
 }
 
 class GemOrange extends Rewards {
+  /**
+  * @description Represents a GemOrange
+  * @constructor
+  * @param {string} id - The id of the gemorange
+  */
   constructor() {
     super('images/Gem Orange.png')
     this.id = 'orange';
@@ -362,7 +382,7 @@ class GemOrange extends Rewards {
 // Place the player object in a variable called player
 let allEnemies = new Set();
 let allObjects = new Set();
-const ENEMYS = 4;
+const ENEMYS = 3;
 let player = new Player();
 let game = new Game();
 game.handleStart();
