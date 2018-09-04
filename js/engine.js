@@ -18,7 +18,7 @@ var Engine = (function(global) {
   * create the canvas element, grab the 2D context for that canvas
   * set the canvas elements height/width and add it to the DOM.
   */
-  var doc = global.document,
+  let doc = global.document,
       win = global.window,
       canvas = doc.createElement('canvas'),
       ctx = canvas.getContext('2d'),
@@ -38,8 +38,8 @@ var Engine = (function(global) {
     * would be the same for everyone (regardless of how fast their
     * computer is) - hurray time!
     */
-    var now = Date.now(),
-        dt = (now - lastTime) / 1000.0;
+    const now = Date.now(),
+          dt = (now - lastTime) / 1000.0;
 
     /* Call our update/render functions, pass along the time delta to
     * our update function since it may be used for smooth animation.
@@ -93,20 +93,37 @@ var Engine = (function(global) {
   * render methods.
   */
   function updateEntities(dt) {
+    /**
+    * @description Update the entities
+    * @param {number} dt - (now - lastTime) / 1000.0;
+    */
     allEnemies.forEach(function(enemy) {
       enemy.update(dt);
     });
   }
 
   function checkCollisions() {
+    /**
+    * @description Check collisions player/enemy
+    */
     allEnemies.forEach(function(enemy) {
       if (enemy.y === player.y && Math.abs(enemy.x - player.x) < (enemy.width + player.width)) {
         player.lost();
       }         
     });
+    allObjects.forEach(function(object) {
+      if (object.y === (player.y + object.height) && Math.abs(object.x - player.x) < (object.width + player.width)) {
+        object.givePrize();
+        allObjects.delete(object);
+      }         
+    });
   }
 
   function checkEnemyLife() {
+    /**
+    * @description Check the enemy life, if it is less than 0
+    *              kill this enemy and create another randomly
+    */
     allEnemies.forEach(function(enemy) {
       if (enemy.life <=0) {
         allEnemies.delete(enemy);
@@ -116,12 +133,20 @@ var Engine = (function(global) {
   }
 
   function playerWin() {
+    /**
+    * @description Check if the player reach the water, reset the player position,
+    *              increase score and player count
+    */
     if (player.y === -50) {
       player.reset();
       player.increaseCount();
-      game.increaseScore(10);
+      game.increaseScore(100);
     }
   }
+
+  setInterval(() => {
+    game.randomPrize();
+  }, 10000)
 
   /* This function initially draws the "game level", it will then call
   * the renderEntities function. Remember, this function is called every
@@ -133,7 +158,7 @@ var Engine = (function(global) {
     /* This array holds the relative URL to the image used
     * for that particular row of the game level.
     */
-      var rowImages = [
+      let rowImages = [
               'images/water-block.png',   // Top row is water
               'images/stone-block.png',   // Row 1 of 3 of stone
               'images/stone-block.png',   // Row 2 of 3 of stone
@@ -191,6 +216,12 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
           enemy.render();
         });
+        allObjects.forEach(function(object) {
+          if (new Date().getTime() - object.createTime > object.lifeTime) {
+            allObjects.delete(object);
+          }
+          object.render();
+        });
         player.render();
       }
     }
@@ -217,7 +248,10 @@ var Engine = (function(global) {
       'images/grass-block.png',
       'images/enemy-bug.png',
       'images/char-boy.png',
-      'images/Heart.png'
+      'images/Heart.png',
+      'images/Gem Blue.png',
+      'images/Gem Green.png',
+      'images/Gem Orange.png'
   ]);
   Resources.onReady(init);
 

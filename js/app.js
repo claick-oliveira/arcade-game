@@ -15,7 +15,13 @@ class Game {
     this.pause = false;
     this.over = false;
     this.reset = false;
-    this.sprite = 'images/Heart.png';
+    this.countBlue = 0
+    this.countGreen = 0
+    this.countOrange = 0
+    this.heart = 'images/Heart.png';
+    this.blue = 'images/Gem Blue.png';
+    this.green = 'images/Gem Green.png';
+    this.orange = 'images/Gem Orange.png';
   }
 
   increaseLevel() {
@@ -40,8 +46,16 @@ class Game {
     */
     const choices = [40, 130, 220];
     const choice = choices[Math.floor(Math.random() * choices.length)];
-    const speed = Math.floor(Math.random()*300) + 10;
+    const speed = Math.floor(Math.random()*300*game.level) + 10;
     allEnemies.add(new Enemy(choice, speed));    
+  }
+
+  randomPrize() {
+    allObjects.clear();
+    let choices = [new Heart(), new GemBlue(), new GemGreen(), new GemOrange()];
+    const choice = choices[Math.floor(Math.random() * choices.length)];
+    allObjects.add(choice);
+    choices = [];
   }
 
   renderStatus() {
@@ -52,14 +66,28 @@ class Game {
     ctx.fillStyle = 'black';
     ctx.font = "bold 28px Arial";
     ctx.fillText(" x " + player.life, 40, 575);
-    ctx.drawImage(Resources.get(this.sprite), 0, 540, 40, 50);
+    ctx.drawImage(Resources.get(this.heart), 0, 540, 40, 50);
     ctx.clearRect(0, 0, 0, 0);
     ctx.fillStyle = 'black';
     ctx.font = "20px Arial";
     // Draw scores on the top left
-    ctx.fillText("Score: " + this.score, 15, 40);
+    ctx.fillText("Score: " + this.score, 0, 40);
     // Draw lives on the top right
     ctx.fillText("Level: " + this.level, 420, 40);
+    ctx.clearRect(0, 0, 0 , 0);
+    ctx.font = "20pt Impact";
+    ctx.fillStyle = 'white';
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 3
+    ctx.drawImage(Resources.get(this.blue), 140, 0, 40, 50);
+    ctx.fillText(this.countBlue, 155, 40);
+    ctx.strokeText(this.countBlue, 155, 40);
+    ctx.drawImage(Resources.get(this.green), 230, 0, 40, 50);
+    ctx.fillText(this.countGreen, 245, 40);
+    ctx.strokeText(this.countGreen, 245, 40);
+    ctx.drawImage(Resources.get(this.orange), 320, 0, 40, 50);
+    ctx.fillText(this.countOrange, 335, 40);
+    ctx.strokeText(this.countOrange, 335, 40);
   }
 
   renderPause() {
@@ -117,6 +145,9 @@ class Game {
     this.pause = !this.pause;
     this.score = 0;
     this.level = 1;
+    this.countBlue = 0;
+    this.countGreen = 0;
+    this.countOrange = 0;
     player.life = 3;
     player.count = 0;
     allEnemies.clear();
@@ -240,10 +271,97 @@ class Player {
   }
 };
 
+class Rewards {
+  /**
+  * @description Represents a Enemy
+  * @constructor
+  * @param {number} x - The position X of the enemy
+  * @param {number} y - The position Y of the enemy
+  * @param {number} width - The width of the enemy
+  * @param {number} rate - The rate speed of the enemy
+  * @param {number} life - The life of the enemy
+  * @param {string} sprite - The sprite of the enemy
+  */
+  constructor(image) {
+    this.width = 30;
+    this.height = 80;
+    this.pointsX= [10, 110, 213, 313, 413];
+    this.pointsY= [120, 210, 300];
+    this.lifeTime = Math.floor(Math.random()*8000) + 3000;
+    this.createTime = new Date().getTime();
+    this.x = this.pointsX[Math.floor(Math.random() * this.pointsX.length)];
+    this.y = this.pointsY[Math.floor(Math.random() * this.pointsY.length)];
+    this.sprite = image;
+  }
+
+  render() {
+    /**
+    * @description Renders the enemy
+    */
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 80, 80);
+  }
+};
+
+class Heart extends Rewards {
+  constructor() {
+    super('images/Heart.png')
+    this.id = 'heart';
+  }
+
+  givePrize (){
+    player.life += 1;
+    player.count += 1;
+  }
+
+}
+
+class GemBlue extends Rewards {
+  constructor() {
+    super('images/Gem Blue.png')
+    this.id = 'blue';
+  }
+
+  givePrize (){
+    game.increaseScore(200*game.level);
+    game.countBlue += 1;
+    player.count += 1;
+  }
+
+}
+
+class GemGreen extends Rewards {
+  constructor() {
+    super('images/Gem Green.png')
+    this.id = 'green';
+  }
+
+  givePrize (){
+    game.increaseScore(400*game.level);
+    game.countGreen += 1;
+    player.count += 1;
+  }
+
+}
+
+class GemOrange extends Rewards {
+  constructor() {
+    super('images/Gem Orange.png')
+    this.id = 'orange';
+  }
+
+  givePrize (){
+    game.increaseScore(600*game.level);
+    game.countOrange += 1;
+    player.count += 1;
+  }
+
+}
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 let allEnemies = new Set();
+let allObjects = new Set();
 const ENEMYS = 4;
 let player = new Player();
 let game = new Game();
