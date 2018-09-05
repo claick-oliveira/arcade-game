@@ -5,9 +5,13 @@ class Game {
   * @param {number} score - The score of the game
   * @param {number} level - The level of the game
   * @param {boolean} pause - The pause status of the game
-  * @param {boolean} over - The over status of the game
+  * @param {boolean} over - The end status of the game
   * @param {boolean} reset - The reset status of the game
-  * @param {string} sprite - The sprite heart of the game
+  * @param {string} heart - The sprite heart of the game
+  * @param {string} blue - The sprite gemblue of the game
+  * @param {string} green - The sprite gemgreen of the game
+  * @param {string} orange - The sprite gemorange of the game
+  * @param {string} bug - The sprite bug of the game
   */
   constructor() {
     this.score = 0;
@@ -23,6 +27,7 @@ class Game {
     this.blue = 'images/Gem Blue.png';
     this.green = 'images/Gem Green.png';
     this.orange = 'images/Gem Orange.png';
+    this.bug = 'images/enemy-bug.png';
   }
 
   increaseLevel() {
@@ -66,8 +71,12 @@ class Game {
     ctx.clearRect(0, 0, 0 , 0);
     ctx.fillStyle = 'black';
     ctx.font = "bold 28px Arial";
+    // Draw life at bottom left
     ctx.fillText(" x " + player.life, 40, 575);
     ctx.drawImage(Resources.get(this.heart), 0, 540, 40, 50);
+    // Draw life at bottom right
+    ctx.fillText(" x " + allEnemies.size, 445, 575);
+    ctx.drawImage(Resources.get(this.bug), 405, 535, 40, 50);
     ctx.clearRect(0, 0, 0, 0);
     ctx.fillStyle = 'black';
     ctx.font = "20px Arial";
@@ -80,6 +89,7 @@ class Game {
     ctx.fillStyle = 'white';
     ctx.strokeStyle = 'black';
     ctx.lineWidth = 3
+    // Draw Gems on the top middle
     ctx.drawImage(Resources.get(this.blue), 140, 0, 40, 50);
     ctx.fillText(this.countBlue, 155, 40);
     ctx.strokeText(this.countBlue, 155, 40);
@@ -160,22 +170,23 @@ class Menu {
   /**
   * @description Represents a Game
   * @constructor
-  * @param {number} score - The score of the game
-  * @param {number} level - The level of the game
-  * @param {boolean} pause - The pause status of the game
-  * @param {boolean} over - The over status of the game
-  * @param {boolean} reset - The reset status of the game
-  * @param {string} sprite - The sprite heart of the game
+  * @param {number} selectorX - The selector position X
+  * @param {number} selectorId - The selector Id
+  * @param {string} boy - The sprite boy
+  * @param {string} cat - The sprite cat-girl
+  * @param {string} horn - The sprite horn-girl
+  * @param {string} princess - The sprite princess-girl
+  * @param {string} selector - The sprite selector
   */
   constructor() {
+    this.selectorX = 0;
+    this.selectorId = 0;
     this.boy = 'images/char-boy.png';
     this.cat = 'images/char-cat-girl.png';
     this.horn = 'images/char-horn-girl.png';
     this.pink = 'images/char-pink-girl.png';
     this.princess = 'images/char-princess-girl.png';
     this.selector = 'images/Selector.png';
-    this.selectorX = 0;
-    this.selectorId = 0;
   }
 
   renderPlayerSelect() {
@@ -266,8 +277,8 @@ class Player {
   * @param {number} y - The position Y of the player
   * @param {number} width - The width of the player
   * @param {number} life - The life of the player
-  * @param {number} count - The count of the enemy
-  * @param {string} sprite - The sprite of the enemy
+  * @param {number} count - The count of the player
+  * @param {string} sprite - The sprite of the player
   */
   constructor() {
     this.x = 200;
@@ -339,12 +350,15 @@ class Rewards {
   /**
   * @description Represents a Enemy
   * @constructor
-  * @param {number} x - The position X of the enemy
-  * @param {number} y - The position Y of the enemy
-  * @param {number} width - The width of the enemy
-  * @param {number} rate - The rate speed of the enemy
-  * @param {number} life - The life of the enemy
-  * @param {string} sprite - The sprite of the enemy
+  * @param {number} width - The prize's width
+  * @param {number} height - The prize's height
+  * @param {number} pointsX - The array with the prize's possible positions X
+  * @param {number} pointsY - The array with the prize's possible positions Y
+  * @param {number} lifeTime - The prize's ramdom lifetime
+  * @param {number} createTime - The prize's create time
+  * @param {number} x - The random position X of the prize
+  * @param {number} y - The random position Y of the prize
+  * @param {string} sprite - The sprite of the prize
   */
   constructor(image) {
     this.width = 30;
@@ -378,6 +392,9 @@ class Heart extends Rewards {
   }
 
   givePrize (){
+    /**
+    * @description Increase player life and count
+    */
     player.life += 1;
     player.count += 1;
   }
@@ -396,6 +413,10 @@ class GemBlue extends Rewards {
   }
 
   givePrize (){
+    /**
+    * @description Give 200 points * game.level, Increase GemBlue count
+    *              and player count
+    */
     game.increaseScore(200*game.level);
     game.countBlue += 1;
     player.count += 1;
@@ -415,6 +436,10 @@ class GemGreen extends Rewards {
   }
 
   givePrize (){
+    /**
+    * @description Give 400 points * game.level, Increase GemGreen count
+    *              and player count
+    */
     game.increaseScore(400*game.level);
     game.countGreen += 1;
     player.count += 1;
@@ -434,7 +459,13 @@ class GemOrange extends Rewards {
   }
 
   givePrize (){
-    game.increaseScore(600*game.level);
+    /**
+    * @description Remove random enemy, Increase GemOrange count
+    *              and player count
+    */
+    const choices = Array.from(allEnemies.keys());
+    const choice = choices[Math.floor(Math.random() * choices.length)]
+    console.log(allEnemies.delete(choice));
     game.countOrange += 1;
     player.count += 1;
   }
@@ -444,9 +475,9 @@ class GemOrange extends Rewards {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+const ENEMYS = 3;
 let allEnemies = new Set();
 let allObjects = new Set();
-const ENEMYS = 3;
 let player = new Player();
 let game = new Game();
 let menu = new Menu();
