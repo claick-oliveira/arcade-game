@@ -6,8 +6,50 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <script src="js/resources.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/engine.js"></script>
+
+  <script src="js/resources.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/engine.js"></script>
+  <div class="makrdown">
+
+    <h3 id="instructions">Instructions</h3>
+    <ol>
+      <li>Select your player;</li>
+      <li>Press 'space' to start the game;</li>
+      <li>Use:
+        <ul>
+          <li><strong>UP</strong>: Move character up</li>
+          <li><strong>DOWN</strong>: Move character down</li>
+          <li><strong>LEFT</strong>: Move character left</li>
+          <li><strong>RIGHT</strong>: Move character right</li>
+          <li><strong>SPACE</strong>: Pause the game</li>
+          <li><strong>ESC</strong>: Reset the game</li>
+          <li><strong>ENTER</strong>: Start the game after the game over</li>
+        </ul>
+      </li>
+    </ol>
+
+    <blockquote>
+      <p>Obs: You can press 'Esc' anytime to reset the game.</p>
+    </blockquote>
+
+    <h3 id="rules">Rules</h3>
+
+    <ol>
+      <li>The player need to reach the water to earn ponts, the point will be 100 * game level. Example: 100 * 3 (game level) = 300 points. When this happens the player comes back to initial position;</li>
+      <li>The player starts with 3 lifes and can't touch the bugs, else the life will be decreased;</li>
+      <li>Each 10 sec, it's generated a random prize and it has a random time life. The prizes could be:
+      <ul>
+        <li>Heart: Increases the player's life;</li>
+        <li>Gem Blue: Increases 200 * game level points;</li>
+        <li>Gem Green: Increases 400 * game level points;</li>
+        <li>Gem Orange: Decreases the number of bugs;</li></ul>
+      </li>
+      <li>Each time that the player reach the water or got a prize, a count is increased. If this count reach the game level + 3 the game level will be increased and a new random bug will be genareted;</li>
+      <li>The game starts with 3 bugs, when a bug is generated, the game randomize the position, life and speed. The life is a count about how many time the bug will pass, case the time life is reach, the bug will be removed and a new random bug appears;</li>
+    </ol>
+
+  </div>
+
 </body>
 </html>
