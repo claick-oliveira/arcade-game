@@ -52,7 +52,7 @@ class Game {
     */
     const choices = [40, 130, 220];
     const choice = choices[Math.floor(Math.random() * choices.length)];
-    const speed = Math.floor(Math.random()*150*game.level) + 50;
+    const speed = Math.floor(Math.random()*150*game.level) + 20;
     allEnemies.add(new Enemy(choice, speed));    
   }
 

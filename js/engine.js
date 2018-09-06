@@ -140,7 +140,7 @@ var Engine = (function(global) {
     if (player.y === -50) {
       player.reset();
       player.increaseCount();
-      game.increaseScore(100);
+      game.increaseScore(100*game.level);
     }
   }
 

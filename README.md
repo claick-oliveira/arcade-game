@@ -1,6 +1,55 @@
-frontend-nanodegree-arcade-game
-===============================
+# Javascript Arcade Game
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+This project was developed to Udacity's Nanodegree Program, this project is a Javascript Game as frogger arcade game.
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+## Getting Started
+
+To play this game, you can access [here](https://claick-oliveira.github.io/arcade-game/).
+
+### Instructions
+
+1. Select your player;
+2. Press 'space' to start the game;
+3. Use:
+    * **UP**: Move character up
+    * **DOWN**: Move character down
+    * **LEFT**: Move character left
+    * **RIGHT**: Move character right
+    * **SPACE**: Pause the game
+    * **ESC**: Reset the game
+    * **ENTER**: Start the game after the game over
+
+> Obs: You can press 'Esc' anytime to reset the game.
+
+### Rules
+
+1. The player need to reach the water to earn ponts, the point will be 100 * game level. Example: 100 * 3 (game level) = 300 points. When this happens the player comes back to initial position;
+2. The player starts with 3 lifes and can't touch the bugs, else the life will be decreased;
+3. Each 10 sec, it's generated a random prize and it has a random time life. The prizes could be:
+    * Heart: Increases the player's life;
+    * Gem Blue: Increases 200 * game level points;
+    * Gem Green: Increases 400 * game level points;
+    * Gem Orange: Decreases the number of bugs;
+4. Each time that the player reach the water or got a prize, a count is increased. If this count reach the game level + 3 the game level will be increased and a new random bug will be genareted;
+5. The game starts with 3 bugs, when a bug is generated, the game randomize the position, life and speed. The life is a count about how many time the bug will pass, case the time life is reach, the bug will be removed and a new random bug appears;
+
+## Built With
+
+* [HTML](https://developer.mozilla.org/en-US/docs/Web/html) - The web framework used
+* [CSS](https://developer.mozilla.org/en-US/docs/Web/css) - Dependency Management
+* [Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) - Used to generate RSS Feeds
+* [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+## Acknowledgments
+
+* Hat tip to anyone whose code was used
+* Inspiration
+* etc
