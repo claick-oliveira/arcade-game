@@ -35,9 +35,9 @@ To play this game, you can access [here](https://claick-oliveira.github.io/arcad
 
 ## Built With
 
-* [HTML](https://developer.mozilla.org/en-US/docs/Web/html) - The web framework used
-* [CSS](https://developer.mozilla.org/en-US/docs/Web/css) - Dependency Management
-* [Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) - Used to generate RSS Feeds
+* [HTML](https://developer.mozilla.org/en-US/docs/Web/html)
+* [CSS](https://developer.mozilla.org/en-US/docs/Web/css)
+* [Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
 * [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
 ## Contributing
@@ -46,10 +46,4 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE.md](LICENSE.md) file for details.
